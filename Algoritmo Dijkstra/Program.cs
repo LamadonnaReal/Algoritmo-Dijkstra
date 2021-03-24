@@ -87,6 +87,7 @@ namespace Algoritmo_Dijkstra
                 i2++;
             }
         }
+        fpdnaip
         int minimo(vettorecosto[] x)
         {
             int min = INF, copia = 0;
