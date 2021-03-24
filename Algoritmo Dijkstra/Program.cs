@@ -5,6 +5,7 @@ namespace Algoritmo_Dijkstra
     class Program
     {
         const int INF = 9999;
+        int[,] matriceNuova = new int[1, 1];
 
         public struct vettorepercorso
         {
@@ -25,7 +26,8 @@ namespace Algoritmo_Dijkstra
             string continuo = "s";
             Console.WriteLine("Inserire il numero di nodi: ");
             Int32.TryParse(Console.ReadLine(), out nodi);
-            matriceAdiacenze = new int[nodi + 1, nodi + 1];
+            matriceAdiacenze = new int[nodi, nodi];
+            matriceNuova = new int[nodi, nodi];
             while (continuo == "s")
             {
                 Console.WriteLine("Inserisci il nodo di partenza:  ");
@@ -54,7 +56,6 @@ namespace Algoritmo_Dijkstra
             stampa(matriceAdiacenze, nodi);
         }
 
-
         static void stampa(int[,] l, int n)
         {
             for (int i = 0; i <= n; i++)
@@ -67,7 +68,14 @@ namespace Algoritmo_Dijkstra
 
         static void Dijkstra(int[,] l, int n)
         {
-            int copiaNum, copiaInd, i, i2 = 0, j = 0, somma;
+            int j = 0;
+            int min = INF;
+            for(int i = 0; i < nodi; i++)
+            {
+                if (l[i, j] < min)
+                    min = l[i, j];
+            }
+            /*int copiaNum, copiaInd, i, i2 = 0, j = 0, somma;
             int[,] m = new int[n, n];
             int[,] copiaMat = new int[n, n];
             int[] somme = new int[n];
@@ -85,9 +93,8 @@ namespace Algoritmo_Dijkstra
                     }
                 }
                 i2++;
-            }
+            }*/
         }
-        fpdnaipoifdanofda
         int minimo(vettorecosto[] x)
         {
             int min = INF, copia = 0;
