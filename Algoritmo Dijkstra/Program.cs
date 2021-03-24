@@ -87,7 +87,6 @@ namespace Algoritmo_Dijkstra
                 i2++;
             }
         }
-        sdfhjkljgfs
         int minimo(vettorecosto[] x)
         {
             int min = INF, copia = 0;
