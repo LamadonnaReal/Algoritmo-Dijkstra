@@ -18,6 +18,10 @@ namespace Algoritmo_Dijkstra
             public int nodoFine;
             public int costo;
         };
+
+        public static vettorecosto[] vett = new vettorecosto[1];
+        public static int dim = 0;
+
         static void Main(string[] args)
         {
             int[,] matriceAdiacenze = new int[1, 1];
@@ -25,8 +29,9 @@ namespace Algoritmo_Dijkstra
             string continuo = "s";
             Console.WriteLine("Inserire il numero di nodi: ");
             Int32.TryParse(Console.ReadLine(), out nodi);
-            matriceAdiacenze = new int[nodi, nodi];
-            matriceNuova = new int[nodi, nodi];
+            matriceAdiacenze = new int[nodi + 1, nodi + 1];
+            matriceNuova = new int[nodi + 1, nodi + 1];
+            vett = new vettorecosto[nodi * nodi];
             while (continuo == "s")
             {
                 Console.WriteLine("Inserisci il nodo di partenza:  ");
@@ -52,7 +57,24 @@ namespace Algoritmo_Dijkstra
                         matriceAdiacenze[i, j] = INF;
                 }
             }
+            riempimento(nodi);
             stampa(matriceAdiacenze, nodi);
+            Console.Write("\n");
+            Dijkstra(matriceAdiacenze, nodi);
+            stampa(matriceNuova, nodi);
+        }
+
+        public static void riempimento(int nodi)
+        {
+            for (int i = 0; i <= nodi; i++)
+            {
+                matriceNuova[0, i] = i;
+                for (int j = 0; j <= nodi; j++)
+                {
+                    if (j == 0)
+                        matriceNuova[i, j] = i;
+                }
+            }
         }
 
         static void stampa(int[,] l, int n)
@@ -68,11 +90,27 @@ namespace Algoritmo_Dijkstra
         static void Dijkstra(int[,] l, int n)
         {
             int j = 0;
+            int iteratore = 0;
+            int costoAggiunto = 0;
             int min = INF;
-            for(int i = 0; i < n; i++)
+            for(int i = 1; i <= n; i ++)
             {
-                if (l[i, j] < min)
-                    min = l[i, j];
+                for (j = 1; j <= n; j++)
+                {
+                    if (l[i, j] != INF && l[i, j] != 0)
+                    {
+                        vett[iteratore].nodoInizio = i;
+                        vett[iteratore].nodoFine = j;
+                        vett[iteratore].costo = l[i, j] + costoAggiunto;
+                        dim++;
+                        iteratore++;
+                    }
+                }
+                min = minimo();
+                matriceNuova[vett[min].nodoInizio, vett[min].nodoFine] = vett[min].costo;
+                matriceNuova[vett[min].nodoFine, vett[min].nodoInizio] = vett[min].costo;
+                shiftSx(min);
+                dim--;
             }
             /*int copiaNum, copiaInd, i, i2 = 0, j = 0, somma;
             int[,] m = new int[n, n];
@@ -94,14 +132,25 @@ namespace Algoritmo_Dijkstra
                 i2++;
             }*/
         }
-        int minimo(vettorecosto[] x)
+
+        public static void shiftSx(int copia)
+        {
+            for(int i = copia; i < dim; i++)
+            {
+                vett[i].nodoInizio = vett[i + 1].nodoInizio;
+                vett[i].nodoFine = vett[i + 1].nodoFine;
+                vett[i].costo = vett[i + 1].costo;
+            }
+        }
+
+        public static int minimo()
         {
             int min = INF, copia = 0;
-            for (int i = 0; i < x.Length; i++)
+            for (int i = 0; i < dim; i++)
             {
-                if (min > x[i].costo)
+                if (min > vett[i].costo)
                 {
-                    min = x[i].costo;
+                    min = vett[i].costo;
                     copia = i;
                 }
             }
