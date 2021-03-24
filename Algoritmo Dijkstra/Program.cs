@@ -5,8 +5,7 @@ namespace Algoritmo_Dijkstra
     class Program
     {
         const int INF = 9999;
-        int[,] matriceNuova = new int[1, 1];
-
+        public static int[,] matriceNuova = new int[1, 1];
         public struct vettorepercorso
         {
             int[] nodi;
@@ -70,7 +69,7 @@ namespace Algoritmo_Dijkstra
         {
             int j = 0;
             int min = INF;
-            for(int i = 0; i < nodi; i++)
+            for(int i = 0; i < n; i++)
             {
                 if (l[i, j] < min)
                     min = l[i, j];
