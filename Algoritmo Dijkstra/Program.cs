@@ -82,10 +82,10 @@ namespace Algoritmo_Dijkstra
 
         static void stampa(int[,] l, int n)
         {
-            for (int i = 0; i <= n; i++)
+            int j = 0, i = 0;
+            for (i = 0; i <= n; i++)
             {
-                for (int j = 0; j <= n; j++)
-<<<<<<< Updated upstream
+                for (j = 0; j <= n; j++)
                 {
                     if(l[i,j]<10)
                         Console.Write(l[i, j] + "    ");
@@ -94,7 +94,6 @@ namespace Algoritmo_Dijkstra
                     else
                         Console.Write(l[i, j] + " ");
                 } 
-=======
                     if (i == j)
                     {
                         Console.Write("0" + " ");
@@ -104,7 +103,6 @@ namespace Algoritmo_Dijkstra
                         Console.Write(l[i, j] + " ");
                     }
                     
->>>>>>> Stashed changes
                 Console.Write("\n");
             }
         }
@@ -119,11 +117,11 @@ namespace Algoritmo_Dijkstra
             {
                 for (j = 1; j <= n; j++)
                 {
-                    if (l[i, j] != INF && l[i, j] != 0)
+                    if (l[i, j] != INF)
                     {
-                        vett[iteratore].nodoInizio = i;             //La matrice 
-                        vett[iteratore].nodoFine = j;
-                        vett[iteratore].costo = l[i, j] + costoAggiunto;
+                        vett[iteratore].nodoInizio = i;             //La nuova matrice prende i come nodo iniziale
+                        vett[iteratore].nodoFine = j;               //Prende come nodo finale l'indice j
+                        vett[iteratore].costo = l[i, j] + costoAggiunto;    //Il costo viene aggiunto ad una variabile che tiene conto del costo totale fino a quel nodo
                         dim++;
                         iteratore++;
                     }
