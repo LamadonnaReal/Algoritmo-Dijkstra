@@ -57,7 +57,8 @@ namespace Algoritmo_Dijkstra
                         matriceAdiacenze[i, j] = INF;
                 }
             }
-            riempimento(nodi);
+            riempimento(nodi);      //metto la legenda dei nodi (prima riga e prima colonna)
+            Console.Write("\n");
             stampa(matriceAdiacenze, nodi);
             Console.Write("\n");
             Dijkstra(matriceAdiacenze, nodi);
@@ -82,7 +83,14 @@ namespace Algoritmo_Dijkstra
             for (int i = 0; i <= n; i++)
             {
                 for (int j = 0; j <= n; j++)
-                    Console.Write(l[i, j] + " ");
+                {
+                    if(l[i,j]<10)
+                        Console.Write(l[i, j] + "    ");
+                    else if(l[i,j]<100)
+                        Console.Write(l[i, j] + "   ");
+                    else
+                        Console.Write(l[i, j] + " ");
+                } 
                 Console.Write("\n");
             }
         }
