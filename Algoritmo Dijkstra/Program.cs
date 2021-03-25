@@ -55,6 +55,8 @@ namespace Algoritmo_Dijkstra
                         matriceAdiacenze[i, j] = i;
                     if (matriceAdiacenze[i, j] == 0 && i != j)
                         matriceAdiacenze[i, j] = INF;
+                    if (i == j)
+                        matriceAdiacenze[i, j] = INF;
                 }
             }
             riempimento(nodi);      //metto la legenda dei nodi (prima riga e prima colonna)
@@ -83,6 +85,7 @@ namespace Algoritmo_Dijkstra
             for (int i = 0; i <= n; i++)
             {
                 for (int j = 0; j <= n; j++)
+<<<<<<< Updated upstream
                 {
                     if(l[i,j]<10)
                         Console.Write(l[i, j] + "    ");
@@ -91,6 +94,17 @@ namespace Algoritmo_Dijkstra
                     else
                         Console.Write(l[i, j] + " ");
                 } 
+=======
+                    if (i == j)
+                    {
+                        Console.Write("0" + " ");
+                    }
+                    else
+                    {
+                        Console.Write(l[i, j] + " ");
+                    }
+                    
+>>>>>>> Stashed changes
                 Console.Write("\n");
             }
         }
@@ -107,7 +121,7 @@ namespace Algoritmo_Dijkstra
                 {
                     if (l[i, j] != INF && l[i, j] != 0)
                     {
-                        vett[iteratore].nodoInizio = i;
+                        vett[iteratore].nodoInizio = i;             //La matrice 
                         vett[iteratore].nodoFine = j;
                         vett[iteratore].costo = l[i, j] + costoAggiunto;
                         dim++;
