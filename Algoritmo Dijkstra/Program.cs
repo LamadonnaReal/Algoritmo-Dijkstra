@@ -34,6 +34,7 @@ namespace Algoritmo_Dijkstra
             vett = new vettorecosto[nodi * nodi];
             while (continuo == "s")
             {
+                Console.Clear();
                 Console.WriteLine("Inserisci il nodo di partenza:  ");
                 Int32.TryParse(Console.ReadLine(), out partenza);
                 Console.WriteLine("Inserisci il nodo di arrivo:  ");
@@ -58,10 +59,19 @@ namespace Algoritmo_Dijkstra
                 }
             }
             riempimento(nodi);
+            Console.Clear();
+            Console.Write("Matrice adiacenze: \n");
             stampa(matriceAdiacenze, nodi);
-            Console.Write("\n");
+            Console.Write("\nMatrice adiacenze dopo primo passo Dijkstra: \n");
             Dijkstra(matriceAdiacenze, nodi);
             stampa(matriceNuova, nodi);
+            Console.WriteLine("\nPremi un tasto per continuare: ");
+            Console.ReadKey();
+            Console.Clear();
+            Console.Write("Inserisci il nodo iniziale: ");
+            Int32.TryParse(Console.ReadLine(), out nodoIniziale);
+            Console.Write("Inserisci il nodo finale: ");
+            Int32.TryParse(Console.ReadLine(), out nodoFinale);
         }
 
         public static void riempimento(int nodi)
@@ -82,7 +92,12 @@ namespace Algoritmo_Dijkstra
             for (int i = 0; i <= n; i++)
             {
                 for (int j = 0; j <= n; j++)
-                    Console.Write(l[i, j] + " ");
+                {
+                    if(l[i,j]>100)
+                        Console.Write(l[i, j] + " ");
+                    else
+                        Console.Write(l[i, j] + "    ");
+                }
                 Console.Write("\n");
             }
         }
