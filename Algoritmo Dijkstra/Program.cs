@@ -55,8 +55,8 @@ namespace Algoritmo_Dijkstra
                         matriceAdiacenze[i, j] = i;
                     if (matriceAdiacenze[i, j] == 0 && i != j)
                         matriceAdiacenze[i, j] = INF;
-                    if (i == j)
-                        matriceAdiacenze[i, j] = INF;
+                    /*if (i == j)
+                        matriceAdiacenze[i, j] = INF;*/
                 }
             }
             riempimento(nodi);      //metto la legenda dei nodi (prima riga e prima colonna)
@@ -85,7 +85,11 @@ namespace Algoritmo_Dijkstra
             int j = 0, i = 0;
             for (i = 0; i <= n; i++)
             {
+<<<<<<< Updated upstream
                 for (j = 0; j <= n; j++)
+=======
+                for (int j = 0; j <= n; j++)
+>>>>>>> Stashed changes
                 {
                     if(l[i,j]<10)
                         Console.Write(l[i, j] + "    ");
@@ -94,16 +98,25 @@ namespace Algoritmo_Dijkstra
                     else
                         Console.Write(l[i, j] + " ");
                 } 
+<<<<<<< Updated upstream
                     if (i == j)
+=======
+                    /*if (i == j)
+>>>>>>> Stashed changes
                     {
                         Console.Write("0" + " ");
                     }
                     else
                     {
                         Console.Write(l[i, j] + " ");
+<<<<<<< Updated upstream
                     }
                     
                 Console.Write("\n");
+=======
+                    }*/
+                Console.Write("\n\n");
+>>>>>>> Stashed changes
             }
         }
 
