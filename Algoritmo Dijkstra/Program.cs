@@ -55,12 +55,9 @@ namespace Algoritmo_Dijkstra
                         matriceAdiacenze[i, j] = i;
                     if (matriceAdiacenze[i, j] == 0 && i != j)
                         matriceAdiacenze[i, j] = INF;
-                    /*if (i == j)
-                        matriceAdiacenze[i, j] = INF;*/
                 }
             }
-            riempimento(nodi);      //metto la legenda dei nodi (prima riga e prima colonna)
-            Console.Write("\n");
+            riempimento(nodi);
             stampa(matriceAdiacenze, nodi);
             Console.Write("\n");
             Dijkstra(matriceAdiacenze, nodi);
@@ -82,41 +79,11 @@ namespace Algoritmo_Dijkstra
 
         static void stampa(int[,] l, int n)
         {
-            int j = 0, i = 0;
-            for (i = 0; i <= n; i++)
+            for (int i = 0; i <= n; i++)
             {
-<<<<<<< Updated upstream
-                for (j = 0; j <= n; j++)
-=======
                 for (int j = 0; j <= n; j++)
->>>>>>> Stashed changes
-                {
-                    if(l[i,j]<10)
-                        Console.Write(l[i, j] + "    ");
-                    else if(l[i,j]<100)
-                        Console.Write(l[i, j] + "   ");
-                    else
-                        Console.Write(l[i, j] + " ");
-                } 
-<<<<<<< Updated upstream
-                    if (i == j)
-=======
-                    /*if (i == j)
->>>>>>> Stashed changes
-                    {
-                        Console.Write("0" + " ");
-                    }
-                    else
-                    {
-                        Console.Write(l[i, j] + " ");
-<<<<<<< Updated upstream
-                    }
-                    
+                    Console.Write(l[i, j] + " ");
                 Console.Write("\n");
-=======
-                    }*/
-                Console.Write("\n\n");
->>>>>>> Stashed changes
             }
         }
 
@@ -130,11 +97,11 @@ namespace Algoritmo_Dijkstra
             {
                 for (j = 1; j <= n; j++)
                 {
-                    if (l[i, j] != INF)
+                    if (l[i, j] != INF && l[i, j] != 0)
                     {
-                        vett[iteratore].nodoInizio = i;             //La nuova matrice prende i come nodo iniziale
-                        vett[iteratore].nodoFine = j;               //Prende come nodo finale l'indice j
-                        vett[iteratore].costo = l[i, j] + costoAggiunto;    //Il costo viene aggiunto ad una variabile che tiene conto del costo totale fino a quel nodo
+                        vett[iteratore].nodoInizio = i;
+                        vett[iteratore].nodoFine = j;
+                        vett[iteratore].costo = l[i, j] + costoAggiunto;
                         dim++;
                         iteratore++;
                     }
