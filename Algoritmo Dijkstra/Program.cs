@@ -6,11 +6,14 @@ namespace Algoritmo_Dijkstra
     {
         const int INF = 9999;
         public static int[,] matriceNuova = new int[1, 1];
+
         public struct vettorepercorso
         {
             int[] nodi;
             int costo;
         };
+
+        public static int[] visitati = new int[1];
 
         public struct vettorecosto
         {
@@ -25,10 +28,11 @@ namespace Algoritmo_Dijkstra
         static void Main(string[] args)
         {
             int[,] matriceAdiacenze = new int[1, 1];
-            int nodi, nodoIniziale, nodoFinale, partenza, arrivo, peso;
+            int nodi, nodoIniziale, nodoFinale, partenza, arrivo, peso, nodoIntermedio;
             string continuo = "s";
             Console.WriteLine("Inserire il numero di nodi: ");
             Int32.TryParse(Console.ReadLine(), out nodi);
+            visitati = new int[nodi];
             matriceAdiacenze = new int[nodi + 1, nodi + 1];
             matriceNuova = new int[nodi + 1, nodi + 1];
             vett = new vettorecosto[nodi * nodi];
@@ -62,8 +66,8 @@ namespace Algoritmo_Dijkstra
             Console.Clear();
             Console.Write("Matrice adiacenze: \n");
             stampa(matriceAdiacenze, nodi);
-            Console.Write("\nMatrice adiacenze dopo primo passo Dijkstra: \n");
-            Dijkstra(matriceAdiacenze, nodi);
+            /*Console.Write("\nMatrice adiacenze dopo primo passo Dijkstra: \n");
+            Dijkstra(matriceAdiacenze, nodi, 0, 0);*/
             stampa(matriceNuova, nodi);
             Console.WriteLine("\nPremi un tasto per continuare: ");
             Console.ReadKey();
@@ -72,6 +76,16 @@ namespace Algoritmo_Dijkstra
             Int32.TryParse(Console.ReadLine(), out nodoIniziale);
             Console.Write("Inserisci il nodo finale: ");
             Int32.TryParse(Console.ReadLine(), out nodoFinale);
+            Dijkstra(matriceAdiacenze, nodi, nodoIniziale, nodoFinale);
+            /*int min = 9999;
+            for (int i = 0; i <= nodi; i++)
+            {
+                for (int j = 0; j <= nodi; j++)
+                {
+                    if (matriceNuova[i, j] < min)
+                        min = matriceNuova[i, j];
+                }
+            }*/
         }
 
         public static void riempimento(int nodi)
@@ -93,7 +107,7 @@ namespace Algoritmo_Dijkstra
             {
                 for (int j = 0; j <= n; j++)
                 {
-                    if(l[i,j]>100)
+                    if (l[i, j] > 100)
                         Console.Write(l[i, j] + " ");
                     else
                         Console.Write(l[i, j] + "    ");
@@ -102,14 +116,18 @@ namespace Algoritmo_Dijkstra
             }
         }
 
-        static void Dijkstra(int[,] l, int n)
+        static void Dijkstra(int[,] l, int n, int nodoI, int nodoF)
         {
-            int j = 0;
-            int iteratore = 0;
+            int i = nodoI, j = 0;
+            int iteratore = 0, c = 0;
             int costoAggiunto = 0;
             int min = INF;
-            for(int i = 1; i <= n; i ++)
+            bool controllo = false;
+            visitati[c] = i;
+            while (!controllo)
             {
+                /*for(int i = 1; i <= n; i ++)
+                {*/
                 for (j = 1; j <= n; j++)
                 {
                     if (l[i, j] != INF && l[i, j] != 0)
@@ -124,8 +142,12 @@ namespace Algoritmo_Dijkstra
                 min = minimo();
                 matriceNuova[vett[min].nodoInizio, vett[min].nodoFine] = vett[min].costo;
                 matriceNuova[vett[min].nodoFine, vett[min].nodoInizio] = vett[min].costo;
+                i = vett[min].nodoFine;
+                visitati[c] = i;
+                c++;
                 shiftSx(min);
                 dim--;
+                //}
             }
             /*int copiaNum, copiaInd, i, i2 = 0, j = 0, somma;
             int[,] m = new int[n, n];
@@ -150,7 +172,7 @@ namespace Algoritmo_Dijkstra
 
         public static void shiftSx(int copia)
         {
-            for(int i = copia; i < dim; i++)
+            for (int i = copia; i < dim; i++)
             {
                 vett[i].nodoInizio = vett[i + 1].nodoInizio;
                 vett[i].nodoFine = vett[i + 1].nodoFine;
