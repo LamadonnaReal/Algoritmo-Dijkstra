@@ -100,6 +100,9 @@ namespace Algoritmo_Dijkstra
                 }
                 Console.Write("\n");
             }
+            Console.Write("\n");
+            Console.Write("\n");
+
         }
 
         static void Dijkstra(int[,] l, int n)
@@ -127,30 +130,11 @@ namespace Algoritmo_Dijkstra
                 shiftSx(min);
                 dim--;
             }
-            /*int copiaNum, copiaInd, i, i2 = 0, j = 0, somma;
-            int[,] m = new int[n, n];
-            int[,] copiaMat = new int[n, n];
-            int[] somme = new int[n];
-            int[] puntatori = new int[INF];
-            vettorecosto[] percorso = new vettorecosto[INF];
-            int copia = l[0, 0];
-            for (j = 0; j < n; j++)
-            {
-                for (i = 1; i < n; i++)
-                {
-                    if (m[i, j] < copia)
-                    {
-                        copiaInd = i;
-                        somme[i2] = somme[i2 + m[i, j]];
-                    }
-                }
-                i2++;
-            }*/
         }
 
         public static void shiftSx(int copia)
         {
-            for(int i = copia; i < dim; i++)
+            for(int i = copia; i < dim-1; i++)
             {
                 vett[i].nodoInizio = vett[i + 1].nodoInizio;
                 vett[i].nodoFine = vett[i + 1].nodoFine;
