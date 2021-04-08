@@ -13,7 +13,14 @@ namespace Algoritmo_Dijkstra
             int costo;
         };
 
-        public static int[] visitati = new int[1];
+
+        public struct s_visitati
+        {
+            public int router;
+            public int costo;
+        }
+
+        public static s_visitati[] visitati = new s_visitati[1];
 
         public struct vettorecosto
         {
@@ -24,6 +31,9 @@ namespace Algoritmo_Dijkstra
 
         public static vettorecosto[] vett = new vettorecosto[1];
         public static int dim = 0;
+        public static int c = 0;
+
+
 
         static void Main(string[] args)
         {
@@ -32,7 +42,7 @@ namespace Algoritmo_Dijkstra
             string continuo = "s";
             Console.WriteLine("Inserire il numero di nodi: ");
             Int32.TryParse(Console.ReadLine(), out nodi);
-            visitati = new int[nodi];
+            visitati = new s_visitati[nodi];
             matriceAdiacenze = new int[nodi + 1, nodi + 1];
             matriceNuova = new int[nodi + 1, nodi + 1];
             vett = new vettorecosto[nodi * nodi];
@@ -51,7 +61,7 @@ namespace Algoritmo_Dijkstra
                 continuo = Console.ReadLine();
             }
 
-            for (int i = 0; i <= nodi; i++)
+            /*for (int i = 0; i <= nodi; i++)
             {
                 matriceAdiacenze[0, i] = i;
                 for (int j = 0; j <= nodi; j++)
@@ -61,7 +71,7 @@ namespace Algoritmo_Dijkstra
                     if (matriceAdiacenze[i, j] == 0 && i != j)
                         matriceAdiacenze[i, j] = INF;
                 }
-            }
+            }*/
             riempimento(nodi);
             Console.Clear();
             Console.Write("Matrice adiacenze: \n");
@@ -73,19 +83,40 @@ namespace Algoritmo_Dijkstra
             Console.ReadKey();
             Console.Clear();
             Console.Write("Inserisci il nodo iniziale: ");
-            Int32.TryParse(Console.ReadLine(), out nodoIniziale);
-            Console.Write("Inserisci il nodo finale: ");
-            Int32.TryParse(Console.ReadLine(), out nodoFinale);
-            Dijkstra(matriceAdiacenze, nodi, nodoIniziale, nodoFinale);
-            /*int min = 9999;
-            for (int i = 0; i <= nodi; i++)
+            do
             {
-                for (int j = 0; j <= nodi; j++)
+                Int32.TryParse(Console.ReadLine(), out nodoIniziale);
+                Console.Write("Inserisci il nodo finale: ");
+                Int32.TryParse(Console.ReadLine(), out nodoFinale);
+                azzeramento(visitati);
+                Dijkstra(matriceAdiacenze, nodi, nodoIniziale, nodoFinale);
+                /*int min = 9999;
+                for (int i = 0; i <= nodi; i++)
                 {
-                    if (matriceNuova[i, j] < min)
-                        min = matriceNuova[i, j];
-                }
-            }*/
+                    for (int j = 0; j <= nodi; j++)
+                    {
+                        if (matriceNuova[i, j] < min)
+                            min = matriceNuova[i, j];
+                    }
+                }*/
+                stampaPercorso(visitati);
+                Console.WriteLine("Vuoi continuare? (s-n): ");
+                continuo = Console.ReadLine();
+            } while (continuo == "s");
+        }
+
+        public static void stampaPercorso(s_visitati[] vett)
+        {
+            for (int i = 0; i < dim; i++)
+            {
+                Console.Write(vett[i].router + "  ");
+            }
+            Console.Write("\n");
+            for (int i = dim - 1; i >= 0; i--)
+            {
+                Console.Write(vett[i].router + "  ");
+            }
+            Console.Write(vett[c-1].costo + "\n");
         }
 
         public static void riempimento(int nodi)
@@ -98,6 +129,15 @@ namespace Algoritmo_Dijkstra
                     if (j == 0)
                         matriceNuova[i, j] = i;
                 }
+            }
+        }
+
+        public static void azzeramento(s_visitati[] vet)
+        {
+            for (int i = 0; i < dim; i++)
+            {
+                vet[i].router = 0;
+                vet[i].costo = 0;
             }
         }
 
@@ -122,22 +162,22 @@ namespace Algoritmo_Dijkstra
         static void Dijkstra(int[,] l, int n, int nodoI, int nodoF)
         {
             int i = nodoI, j = 0;
-            int iteratore = 0, c = 0;
+            int iteratore = 0;
             int costoAggiunto = 0;
             int min = INF;
             bool controllo = false;
-            visitati[c] = i;
+            visitati[c++].router = i;
             while (!controllo)
             {
                 /*for(int i = 1; i <= n; i ++)
                 {*/
                 for (j = 1; j <= n; j++)
                 {
-                    if (l[i, j] != INF && l[i, j] != 0)
+                    if (l[i, j] != INF && l[i, j] != 0 && !verificaVisitato(j))
                     {
                         vett[iteratore].nodoInizio = i;
                         vett[iteratore].nodoFine = j;
-                        vett[iteratore].costo = l[i, j] + costoAggiunto;
+                        vett[iteratore].costo = l[i, j] + visitati[c - 1].costo;
                         dim++;
                         iteratore++;
                     }
@@ -145,27 +185,46 @@ namespace Algoritmo_Dijkstra
                 min = minimo();
                 matriceNuova[vett[min].nodoInizio, vett[min].nodoFine] = vett[min].costo;
                 matriceNuova[vett[min].nodoFine, vett[min].nodoInizio] = vett[min].costo;
-                i = vett[min].nodoFine;
-                visitati[c] = i;
-                c++;
-                shiftSx(min);
+                if (visitati[c - 1].router == vett[min].nodoInizio)
+                {
+                    i = vett[min].nodoFine;
+                    visitati[c].router = i;
+                    visitati[c].costo = vett[min].costo;
+                    c++;
+                }
+                else
+                {
+                    i = vett[min].nodoFine;
+                    visitati[c - 1].router = i;
+                    visitati[c].costo = vett[min].costo;
+                }
+                if (i == nodoF)
+                    controllo = true;
+                iteratore = shiftSx(min, iteratore);
                 dim--;
                 //}
             }
         }
 
-        public static void shiftSx(int copia)
+        public static bool verificaVisitato(int j)
         {
-<<<<<<< HEAD
-            for(int i = copia; i < dim-1; i++)
-=======
+            for (int i = 0; i < dim; i++)
+            {
+                if (visitati[i].router == j)
+                    return true;
+            }
+            return false;
+        }
+
+        public static int shiftSx(int copia, int iteratore)
+        {
             for (int i = copia; i < dim; i++)
->>>>>>> f85adc8c587e2f4e4f67bd1ccd43e4e97a8218c6
             {
                 vett[i].nodoInizio = vett[i + 1].nodoInizio;
                 vett[i].nodoFine = vett[i + 1].nodoFine;
                 vett[i].costo = vett[i + 1].costo;
             }
+            return iteratore - 1;
         }
 
         public static int minimo()
