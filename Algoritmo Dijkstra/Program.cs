@@ -6,6 +6,8 @@ namespace Algoritmo_Dijkstra
     {
         const int INF = 9999;
         public static int[,] matriceNuova = new int[1, 1];
+        public static int dim = 0;
+        public static int c = 0;
 
         public struct vettorepercorso
         {
@@ -13,13 +15,11 @@ namespace Algoritmo_Dijkstra
             int costo;
         };
 
-
         public struct s_visitati
         {
             public int router;
             public int costo;
         }
-
         public static s_visitati[] visitati = new s_visitati[1];
 
         public struct vettorecosto
@@ -28,12 +28,7 @@ namespace Algoritmo_Dijkstra
             public int nodoFine;
             public int costo;
         };
-
         public static vettorecosto[] vett = new vettorecosto[1], v2 = new vettorecosto[1];
-        public static int dim = 0;
-        public static int c = 0;
-
-
 
         static void Main(string[] args)
         {
@@ -62,73 +57,59 @@ namespace Algoritmo_Dijkstra
                 continuo = Console.ReadLine();
             }
 
-            /*for (int i = 0; i <= nodi; i++)
-            {
-                matriceAdiacenze[0, i] = i;
-                for (int j = 0; j <= nodi; j++)
-                {
-                    if (j == 0)
-                        matriceAdiacenze[i, j] = i;
-                    if (matriceAdiacenze[i, j] == 0 && i != j)
-                        matriceAdiacenze[i, j] = INF;
-                }
-            }*/
-            riempimento(nodi);
+            riempimento(matriceNuova, nodi);
+            riempimento(matriceAdiacenze, nodi);
             Console.Clear();
             Console.Write("Matrice adiacenze: \n");
             stampa(matriceAdiacenze, nodi);
-            /*Console.Write("\nMatrice adiacenze dopo primo passo Dijkstra: \n");
-            Dijkstra(matriceAdiacenze, nodi, 0, 0);*/
-            stampa(matriceNuova, nodi);
-            Console.WriteLine("\nPremi un tasto per continuare: ");
+            //stampa(matriceNuova, nodi);
+
+            Console.Write("\nPremi un tasto per continuare >> ");
             Console.ReadKey();
             Console.Clear();
-            Console.Write("Inserisci il nodo iniziale: ");
+            
             do
             {
+                Console.Write("Inserisci il nodo iniziale: ");
                 Int32.TryParse(Console.ReadLine(), out nodoIniziale);
                 Console.Write("Inserisci il nodo finale: ");
                 Int32.TryParse(Console.ReadLine(), out nodoFinale);
                 azzeramento(visitati);
                 Dijkstra(matriceAdiacenze, nodi, nodoIniziale, nodoFinale);
-                /*int min = 9999;
-                for (int i = 0; i <= nodi; i++)
-                {
-                    for (int j = 0; j <= nodi; j++)
-                    {
-                        if (matriceNuova[i, j] < min)
-                            min = matriceNuova[i, j];
-                    }
-                }*/
                 stampaPercorso(visitati);
-                Console.WriteLine("Vuoi continuare? (s-n): ");
+
+                Console.WriteLine("\nVuoi continuare? (s-n): ");
                 continuo = Console.ReadLine();
             } while (continuo == "s");
         }
 
         public static void stampaPercorso(s_visitati[] vett)
         {
+            Console.Write("\nPercorso (Router in cui passa): ");
             for (int i = 0; i < dim; i++)
             {
-                Console.Write(vett[i].router + "  ");
+                if(vett[i].router!=0)
+                    Console.Write(vett[i].router + " - ");
             }
-            Console.Write("\n");
+            Console.Write("\n\nPercorso a ritroso: ");
             for (int i = dim - 1; i >= 0; i--)
             {
-                Console.Write(vett[i].router + "  ");
+                if (vett[i].router != 0)
+                    Console.Write(vett[i].router + " - ");
             }
+            Console.Write("\nCosto complessivo: ");
             Console.Write(vett[c - 1].costo + "\n");
         }
 
-        public static void riempimento(int nodi)
+        public static void riempimento(int[,] matrice, int nodi)
         {
             for (int i = 0; i <= nodi; i++)
             {
-                matriceNuova[0, i] = i;
+                matrice[0, i] = i;
                 for (int j = 0; j <= nodi; j++)
                 {
                     if (j == 0)
-                        matriceNuova[i, j] = i;
+                        matrice[i, j] = i;
                 }
             }
         }
@@ -155,9 +136,7 @@ namespace Algoritmo_Dijkstra
                 }
                 Console.Write("\n");
             }
-            Console.Write("\n");
-            Console.Write("\n");
-
+            Console.Write("\n\n");
         }
 
         static void Dijkstra(int[,] l, int n, int nodoI, int nodoF)
@@ -170,8 +149,6 @@ namespace Algoritmo_Dijkstra
             visitati[c++].router = i;
             while (!controllo)
             {
-                /*for(int i = 1; i <= n; i ++)
-                {*/
                 for (j = 1; j <= n; j++)
                 {
                     if (l[i, j] != INF && l[i, j] != 0 && !verificaVisitato(j))
@@ -203,7 +180,6 @@ namespace Algoritmo_Dijkstra
                     controllo = true;
                 iteratore = shiftSx(min, iteratore);
                 dim--;
-                //}
             }
         }
 
