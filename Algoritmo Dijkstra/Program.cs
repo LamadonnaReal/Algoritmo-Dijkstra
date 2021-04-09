@@ -29,7 +29,7 @@ namespace Algoritmo_Dijkstra
             public int costo;
         };
 
-        public static vettorecosto[] vett = new vettorecosto[1];
+        public static vettorecosto[] vett = new vettorecosto[1], v2 = new vettorecosto[1];
         public static int dim = 0;
         public static int c = 0;
 
@@ -46,6 +46,7 @@ namespace Algoritmo_Dijkstra
             matriceAdiacenze = new int[nodi + 1, nodi + 1];
             matriceNuova = new int[nodi + 1, nodi + 1];
             vett = new vettorecosto[nodi * nodi];
+            v2 = new vettorecosto[nodi];
             while (continuo == "s")
             {
                 Console.Clear();
@@ -116,7 +117,7 @@ namespace Algoritmo_Dijkstra
             {
                 Console.Write(vett[i].router + "  ");
             }
-            Console.Write(vett[c-1].costo + "\n");
+            Console.Write(vett[c - 1].costo + "\n");
         }
 
         public static void riempimento(int nodi)
